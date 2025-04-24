@@ -5,14 +5,17 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 @Entity
 public class Subject {
 	
 	@Id
     private String subjectId;
 	private String subjectName;
-	@ManyToMany
+	@ManyToMany(mappedBy = "subjects")
 	private List<Student> Students;
+	@OneToOne (mappedBy = "subject")
+	private Exam exam;
 	public String getSubjectId() {
 		return subjectId;
 	}

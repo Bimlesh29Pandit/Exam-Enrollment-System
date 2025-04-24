@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Project.LearningNavigator.Model.Student;
 import com.Project.LearningNavigator.Service.StudentService;
+import com.Project.LearningNavigator.dto.StudentDto;
 
 @RestController
 @RequestMapping("/students")
@@ -26,25 +27,25 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 	@GetMapping
-	public ResponseEntity<List<Student>> getAllStudent(){
+	public ResponseEntity<List<StudentDto>> getAllStudent(){
 		
 		return studentService.getAllStudetn();
 		
 	}
 	@GetMapping("/{registrationId}")
-	public ResponseEntity<Student> getStudentById(@PathVariable String registrationId){
+	public ResponseEntity<StudentDto> getStudentById(@PathVariable String registrationId){
 		
 		return studentService.getStudentById(registrationId);
 		
 	}
 	@PostMapping
-	public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+	public ResponseEntity<StudentDto> createStudent(@RequestBody Student student) {
 		
 		return studentService.createStudent(student);
 		
 	}
 	@PutMapping
-	public ResponseEntity<Student> updateStudent(@RequestBody Student student){
+	public ResponseEntity<StudentDto> updateStudent(@RequestBody Student student){
 		return studentService.updateStudent(student);
 	}
 	@DeleteMapping("/{registrationId}")
@@ -53,7 +54,7 @@ public class StudentController {
 		return studentService.deleteStudent(registrationId);
 	}
 	@GetMapping("/subjectEnrollment")
-	public Student enrollSubject(@RequestParam String studentId, @RequestParam String subjectId){
+	public StudentDto enrollSubject(@RequestParam String studentId, @RequestParam String subjectId){
 		
 		
 		return studentService.enrollSubject(studentId,subjectId);

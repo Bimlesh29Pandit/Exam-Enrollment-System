@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Project.LearningNavigator.Model.Subject;
 import com.Project.LearningNavigator.Service.subjectService;
+import com.Project.LearningNavigator.dto.SubjectDto;
 
 @RestController
 @RequestMapping("/subjects")
@@ -24,11 +25,12 @@ public class SubjectController {
 	private subjectService subjectService;
 	
 	@GetMapping
-	public ResponseEntity<List<Subject>> getAllSubject(){
+	public ResponseEntity<List<SubjectDto>> getAllSubject(){
+		
 		return subjectService.getAllSubject();
 	}
-	@GetMapping("/{subejctId}")
-	public ResponseEntity<Subject> getSubjectById(@PathVariable String subjectId){
+	@GetMapping("/{subjectId}")
+	public ResponseEntity<SubjectDto> getSubjectById(@PathVariable String subjectId){
 		return subjectService.getSubjectById(subjectId);
 	}
 	
@@ -37,12 +39,12 @@ public class SubjectController {
 		return subjectService.deleteSubject(subjectId);
 	}
 	@PostMapping
-	public ResponseEntity<Subject> create(@RequestBody Subject subject){
+	public ResponseEntity<SubjectDto> create(@RequestBody Subject subject){
 		
 		return subjectService.create(subject);
 	}
 	@PutMapping
-	public ResponseEntity<Subject> updateSubject(@RequestBody Subject subject){
+	public ResponseEntity<SubjectDto> updateSubject(@RequestBody Subject subject){
 		return subjectService.updateSubject(subject);
 	}
 

@@ -1,6 +1,7 @@
 package com.Project.LearningNavigator.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.Project.LearningNavigator.Exception.ResourceNotFoundException;
 import com.Project.LearningNavigator.Model.Subject;
 import com.Project.LearningNavigator.Repo.SubjectRepository;
+import com.Project.LearningNavigator.dto.SubjectDto;
 
 @Service
 public class subjectService {
@@ -18,9 +20,14 @@ public class subjectService {
 	@Autowired
 	private SubjectRepository subjectRepository;
 
-	public ResponseEntity<List<Subject>> getAllSubject() {
+	public ResponseEntity<List<SubjectDto>> getAllSubject() {
 		
-		return new ResponseEntity<>(subjectRepository.findAll(), HttpStatus.OK);
+		List<SubjectDto> subejctDtos = subjectRepository.findAll().stream()
+				.map(sub-> new SubjectDto(sub.getSubjectId(),sub.getSubjectName()))
+				.collect(Collectors.toList());
+		
+		
+		return new ResponseEntity<>(subejctDtos, HttpStatus.OK);
 	}
 
 	public ResponseEntity<String> deleteSubject(String subjectId) {
@@ -28,18 +35,28 @@ public class subjectService {
 		subjectRepository.deleteById(subjectId);
 		return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
 	}
-	 public ResponseEntity<Subject> create(Subject subject) {
-	        return new ResponseEntity<Subject>( subjectRepository.save(subject),HttpStatus.CREATED);
+	 public ResponseEntity<SubjectDto> create(Subject subject) {
+		 Subject subjects = subjectRepository.save(subject);
+		 SubjectDto subjectDto = new SubjectDto(subject.getSubjectId(),subject.getSubjectName());
+		 
+	        return new ResponseEntity<>( subjectDto,HttpStatus.CREATED);
 	    }
 
-	public ResponseEntity<Subject> getSubjectById(String subjectId) {
+	public ResponseEntity<SubjectDto> getSubjectById(String subjectId) {
 		// TODO Auto-generated method stub
-		return new ResponseEntity<Subject>(subjectRepository.findById(subjectId).orElseThrow(()-> new ResourceNotFoundException("Subject Not Found")),HttpStatus.OK);
+		Subject subject =  subjectRepository.findById(subjectId).orElseThrow(()-> new ResourceNotFoundException("Subject Not Found with Id : "+subjectId));
+		
+		SubjectDto subjectDto = new SubjectDto(subject.getSubjectId(),subject.getSubjectName());
+		
+		return new ResponseEntity<SubjectDto>(subjectDto,HttpStatus.OK);
 	}
 
-	public ResponseEntity<Subject> updateSubject(Subject subject) {
+	public ResponseEntity<SubjectDto> updateSubject(Subject subject) {
 		// TODO Auto-generated method stub
-		return new ResponseEntity<Subject>(subjectRepository.save(subject),HttpStatus.OK);
+		 Subject subjects = subjectRepository.save(subject);
+		 SubjectDto subjectDto = new SubjectDto(subject.getSubjectId(),subject.getSubjectName());
+		 
+		return new ResponseEntity<>(subjectDto,HttpStatus.OK);
 	}
 	 
 	 

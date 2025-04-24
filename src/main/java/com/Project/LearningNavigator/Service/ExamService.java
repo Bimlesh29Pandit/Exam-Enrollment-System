@@ -40,7 +40,7 @@ public class ExamService {
 		Student student = studentRepo.findById(studentId)
 				.orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
-		if (!student.getSubjects().contains(exam.getSubejct())) {
+		if (!student.getSubjects().contains(exam.getSubject())) {
 			throw new IllegalArgumentException("Student must be enrolled in the subject before registering for the exam");
 		}
 
